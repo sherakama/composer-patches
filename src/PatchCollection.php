@@ -21,7 +21,17 @@ class PatchCollection implements \JsonSerializable
      */
     public function addPatch(Patch $patch)
     {
-        $this->patches[$patch->package][] = $patch;
+        $key = null;
+
+        if (isset($patch->sha1) && !is_null($patch->sha1)) {
+          $key = $patch->sha1;
+        }
+
+        if (isset($patch->description) && !is_null($patch->description)) {
+          $key = $patch->description;
+        }
+
+        $this->patches[$patch->package][$key] = $patch;
     }
 
     /**
